@@ -1,0 +1,278 @@
+@import url("https://fonts.googleapis.com/css2?family=Geologica:wght@100..900&display=swap");
+
+:root {
+  --background: #141314;
+  --blockbackground: #1c1b1d;
+  --textcolor: #e6e1e3;
+  --primarycolor: #5a4545;
+  --primarysize: 1.2vw;
+  --primarysizetitle: 1.3vw;
+  --marginsize: 0.3vw;
+}
+
+br {
+  height: 10px;
+}
+
+.geologica-main {
+  font-family: "Geologica", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings: "slnt" 0, "CRSV" 0, "SHRP" 0;
+  color: var(--textcolor);
+}
+
+body {
+  background-color: var(--background);
+  font-family: "Geologica", monospace;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  color: var(--textcolor);
+}
+
+.rectangle {
+  display: flex;
+  width: 70%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+  height: auto;
+  background-color: var(--blockbackground);
+  border-radius: 20px;
+  margin-bottom: 5px;
+  font-size: 4vw;
+  padding: 10px;
+}
+
+.title {
+  font-size: var(--primarysizetitle);
+  background-color: var(--primarycolor);
+  border-radius: 2vw;
+  padding: 0 1vw;
+  margin-bottom: 0.1vh;
+}
+
+a {
+  background-color: var(--primarycolor);
+  padding: 0.05vw 0.8vw;
+  border-radius: 2vw;
+  text-decoration: none;
+  vertical-align: middle;
+}
+
+a:link {
+  color: var(--textcolor);
+}
+
+a:visited {
+  color: var(--textcolor);
+}
+
+#vk {
+  background-color: #0077ff;
+}
+
+#tg {
+  background-color: #24a1de;
+}
+
+#gh {
+  background-color: #2b3137;
+}
+
+#steam {
+  background-color: #2a475e;
+}
+
+.description {
+  font-size: var(--primarysize);
+  font-weight: normal;
+  text-align: center;
+}
+
+.string {
+  display: flex;
+  flex-direction: row;
+  margin: 0.5vh 0;
+  justify-content: center;
+  align-items: center;
+}
+
+.string a {
+  align-items: center;
+  text-decoration: none;
+}
+
+.string i {
+  margin-right: 0.3vw;
+}
+
+hr {
+  width: 100%;
+}
+
+img.emoji {
+  max-width: 30px;
+  max-height: 20px;
+  width: auto;
+  height: auto;
+}
+
+.pfp {
+  height: 1vw;
+  transition: 0.7s;
+  image-rendering: pixelated;
+  vertical-align: middle;
+}
+
+.pfp:hover {
+  transform: scale(10);
+}
+
+.quote {
+  margin: 0 0.2vw;
+}
+
+#myButton {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  height: 10vw;
+  cursor: pointer;
+  border: solid;
+  border-radius: 20px;
+  border-color: var(--primarycolor);
+}
+
+#myButton:hover {
+  content: url("img/stickeradd.png");
+  opacity: 1;
+}
+
+.color_palette {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  bottom: 10vw;
+  right: 20px;
+  border: solid;
+  border-radius: 20px;
+  border-color: var(--primarycolor);
+  color: var(--textcolor);
+  padding: 5px;
+  background: var(--background);
+}
+
+.dot {
+  height: 1vw;
+  width: 1vw;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  margin: 0.1vw 0;
+  cursor: pointer;
+  border-color: red;
+}
+
+#button_color {
+  cursor: pointer;
+  font-size: 1vw;
+  margin-top: 0.1vw;
+}
+
+.color_l {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 600px) {
+  :root {
+    --primarysize: 4vw;
+    --primarysizetitle: 5vw;
+  }
+
+  .title {
+    border-radius: 20vw;
+    padding: 0 3vw;
+    width: 90%;
+    font-weight: 320;
+  }
+
+  .pfp {
+    height: 4vw;
+  }
+
+  #myButton {
+    height: 20vw;
+  }
+
+  a {
+    border-radius: 20vw;
+    white-space: nowrap;
+  }
+
+  br {
+    margin: 10px 0;
+  }
+
+  .string a {
+    height: 100%;
+    padding: 0.5vw 2vw;
+    margin: 0.4vh 0 0 0;
+  }
+
+  .line {
+    margin-top: 1vw;
+  }
+
+  .string {
+    flex-direction: column;
+  }
+
+  .quote {
+    display: none;
+    visibility: hidden;
+  }
+
+  .rectangle {
+    width: 100%;
+    /* Занимает 100% ширины на мобильных устройствах */
+  }
+
+  .color_palette {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    bottom: 28vw;
+    right: 20px;
+    border: solid;
+    border-radius: 1000px;
+    border-color: var(--primarycolor);
+    color: var(--textcolor);
+    padding: 5px;
+    background: var(--background);
+  }
+
+  .dot {
+    height: 6vw;
+    width: 6vw;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 1vw 0;
+    cursor: pointer;
+    border-color: red;
+  }
+
+  #button_color {
+    cursor: pointer;
+    font-size: 6vw;
+    margin-top: 0.4vw;
+  }
+}

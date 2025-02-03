@@ -1,0 +1,15 @@
+[submodule "tonChecker"]
+	path = tonChecker
+	url = git@github.com:krolchonok/tonChecker.git
+[submodule "cloudflareCred"]
+	path = cloudflareCred
+	url = git@github.com:krolchonok/cloudfareCreds.git
+[submodule "schedule"]
+	path = schedule
+	url = git@github.com:krolchonok/schedule.git
+[submodule "tools"]
+	path = tools
+	url = git@github.com:krolchonok/jsToolsPdf.git
+[submodule "instruction"]
+	path = instruction
+	url = git@github.com:krolchonok/wireguard-instruction.git
