@@ -39,14 +39,7 @@ const addDots = (colors) => {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-  const colors = [
-    "#5a4545",
-    "#5a5745",
-    "#495a45",
-    "#455a58",
-    "#45455a",
-    "#5a4555",
-  ];
+  const colors = ["#5a4545", "#5a5745", "#495a45", "#455a58", "#45455a", "#5a4555"];
   addDots(colors);
 
   const savedColor = getCookie("themeColor");
@@ -56,4 +49,14 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll("a[href*='ushastoe.ru']").forEach((link) => {
     link.href = link.href.replace("https://ushastoe.ru", currentDomain);
   });
+
+  const selectedDate = new Date(2003, 7 - 1, 26);
+  const today = new Date();
+  const diffInTime = today - selectedDate;
+  const diffInDays = Math.floor(diffInTime / (1000 * 60 * 60 * 24));
+  document.getElementById("years").innerHTML = diffInDays;
+  const vusDate = new Date(2021, 7 - 1, 1);
+  const diffInTimVus = today - vusDate;
+  const diffInDaysVus = Math.floor(diffInTimVus / (1000 * 60 * 60 * 24 * 365.25)) + 1;
+  document.getElementById("course").innerHTML = diffInDaysVus;
 });
