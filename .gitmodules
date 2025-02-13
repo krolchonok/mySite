@@ -13,3 +13,6 @@
 [submodule "instruction"]
 	path = instruction
 	url = git@github.com:krolchonok/wireguard-instruction.git
+[submodule "service"]
+	path = service
+	url = https://github.com/krolchonok/serviceHtml
