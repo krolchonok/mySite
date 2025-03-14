@@ -16,3 +16,6 @@
 [submodule "service"]
 	path = service
 	url = https://github.com/krolchonok/serviceHtml
+[submodule "mstudio"]
+	path = mstudio
+	url = https://github.com/krolchonok/musicStudio
