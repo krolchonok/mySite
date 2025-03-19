@@ -19,3 +19,6 @@
 [submodule "mstudio"]
 	path = mstudio
 	url = https://github.com/krolchonok/musicStudio
+[submodule "grapher"]
+	path = grapher
+	url = https://github.com/krolchonok/graphViewer
