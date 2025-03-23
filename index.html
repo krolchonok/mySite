@@ -1,163 +1,184 @@
 <!DOCTYPE html>
 <html lang="ru">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>личный журнал ushastoe</title>
-  <meta name="theme-color" content="#141314" />
-
-  <link rel="icon" href="files/favicon.ico" type="image/x-icon" />
-  <link rel="stylesheet" href="files/styles.css" />
-
-  <script src="https://kit.fontawesome.com/63ea5ec899.js" crossorigin="anonymous"></script>
-  <script defer src="files/script.js"></script>
-</head>
-
-<body>
-  <div class="container">
-    <div class="rectangle">
-      <div class="title">кто я?</div>
-      <div class="description">
-        Я студент <i id="course">3</i> курса, живу в России,
-        <i id="years">20</i> дней.
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="files/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="files/styles.css" />
+    <title>личный журнал ushastoe</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://kit.fontawesome.com/63ea5ec899.js"
+      crossorigin="anonymous"
+    ></script>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="tile short">
+        <h2><i class="fa-solid fa-user"></i>&nbspэбоут ми</h2>
+        <p>
+          Я студент <i id="course">4</i> курса, живу в России,
+          <i id="years">365*21</i> дней.
+        </p>
       </div>
-    </div>
-    <div class="rectangle">
-      <div class="title">чем я занимаюсь?</div>
-      <div class="description">
-        <div class="string">
-          Я пишу на Питоне и делаю вид что шарю за такие языки как: Kotlin,
-          JS, C(++,#).
-        </div>
-        <div class="string">
+      <div class="tile short">
+        <h2><i class="fa-solid fa-clipboard"></i>&nbspчем я занимаюсь?</h2>
+        <p>
+          Я пишу на Питоне и делаю вид что шарю за такие языки как: Kotlin, JS,
+          C(++,#).<br />
+        </p>
+        <p>
           Я люблю тратить время на бесползную хрень, которую использую один
-          раз, но делаю так, как будто этот проект будут использовать миллионы
-          людей.
-        </div>
+          раз,<br />
+          но делаю так, как будто этот проект будут использовать миллионы людей.
+        </p>
       </div>
-    </div>
-    <div class="rectangle">
-      <div class="title">проекты прям на этом сайте</div>
-      <div class="description">
-        <div class="string">
-          <a href="https://ushastoe.ru/tonChecker" target="_blank" rel="noopener noreferrer">Ton2Rub</a>
-          <div class="quote">-</div>
-          стоимость тона в рублях
-        </div>
-        <div class="string">
-          <a href="https://ushastoe.ru/mstudio" target="_blank" rel="noopener noreferrer">FluffyStudio</a>
-          <div class="quote">-</div>
-          эквалайзер для музыки
-        </div>
-        <div class="string">
-          <a href="https://ushastoe.ru/tools/pdf2png/" target="_blank" rel="noopener noreferrer">pdf2png</a>
-          <div class="quote">-</div>
-          <span>клиентский js-скрипт для
-            конвертирования&nbsp;pdf&nbsp;в&nbsp;png</span>
-        </div>
-        <div class="string">
-          <a href="https://ushastoe.ru/tools/png2pdf/" target="_blank" rel="noopener noreferrer">png2pdf</a>
-          <div class="quote">-</div>
-          <span>клиентский js-скрипт для
-            конвертирования&nbsp;png&nbsp;в&nbsp;pdf</span>
-        </div>
-      </div>
-    </div>
 
-    <div class="rectangle">
-      <div class="title">бесполезень</div>
-      <div class="description">
-        <div class="string">
-          <a href="https://github.com/krolchonok/WallpaperChanger" target="_blank" rel="noopener noreferrer">WallpaperChanger</a>
-          <div class="quote">-</div>
-          android приложение для изменения обоев
-        </div>
-        <div class="string">
-          <a href="https://github.com/krolchonok/cat_theme_dark" target="_blank" rel="noopener noreferrer">тема для firefox-а</a>
-          <div class="quote">-</div>
-          <span>простая тема с милым котиком
-            <img src="files/img/тестоваякица.png" alt="кися" class="pfp" /></span>
-        </div>
-        <div class="string">
-          <a href="https://krolchonok.github.io/fix-youtube-avatar/" target="_blank" rel="noopener noreferrer">fix-youtube-avatar</a>
-          <div class="quote">-</div>
-          возвращаем аватарки и шапки на youtube
-        </div>
-        <div class="string">
-          <a href="https://github.com/krolchonok/res_change" target="_blank" rel="noopener noreferrer">res_change</a>
-          <div class="quote">-</div>
-          python скрипт, для смены разрешений без подтверждения
-        </div>
+      <div class="tile short">
+        <h2>
+          <i class="fa-solid fa-list-check"></i>&nbspпроекты прям на этом сайте
+        </h2>
+        <p>
+          <button onclick="openUrl('https://ushst.ru/tonChecker')">
+            Ton2Rub
+          </button>
+          - стоимость тона в рублях<br />
+        </p>
+        <p>
+          <button onclick="openUrl('https://ushst.ru/mstudio')">
+            FluffyStudio
+          </button>
+          - эквалайзер для музыки<br />
+        </p>
+        <p>
+          <button onclick="openUrl('https://ushst.ru/grapher')">Grapher</button>
+          - генератор линейных крафиков<br />
+        </p>
+        <p>
+          <button onclick="openUrl('https://ushst.ru/tools/pdf2png/')">
+            pdf2png
+          </button>
+          /
+          <button onclick="openUrl('https://ushst.ru/tools/png2pdf/')">
+            png2pdf
+          </button>
+          - клиентский js-скрипт для конвертирования pdf / png<br />
+        </p>
       </div>
-    </div>
-    <div class="rectangle">
-      <div class="title">контакты</div>
-      <div class="description">
-        <div class="string">
-          <a id="vk" href="https://vk.com/ushastoe" target="_blank" rel="noopener noreferrer"><i class="fab fa-vk"></i>ВК</a>
-          <div class="quote">-</div>
-          @ushastoe
-        </div>
-        <div class="string">
-          <a id="tg" href="https://t.me/ushastoe" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-telegram"></i>ТГ</a>
-          <div class="quote">-</div>
-          @ushastoe
-        </div>
-        <div class="string">
-          <a id="tg" href="https://t.me/ushastayaNora" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-telegram"></i>ТГК</a>
-          <div class="quote">-</div>
-          @ushastayaNora
-        </div>
-      </div>
-    </div>
-    <div class="rectangle">
-      <div class="title">другие ссылочки</div>
-      <div class="description">
-        <div class="string">
-          <a id="gh" target="_blank" href="https://github.com/krolchonok"><i class="fa-brands fa-github"></i>GitHub</a>
-          <div class="quote">-</div>
-          @krolchonok
-        </div>
-        <div class="string">
-          <a id="steam" target="_blank" href="https://steamcommunity.com/id/ushastoest/"><i class="fa-brands fa-steam"></i>Steam</a>
-          <div class="quote">-</div>
-          @ushastoe
-        </div>
-      </div>
-    </div>
-    <div class="rectangle">
-      <div class="title">техника</div>
-      <div class="description">
-        <div class="string">
-          <a style="margin-right: 0.3vw" target="_blank" href="https://ohmyz.sh/">oh-my-zsh</a>
-          <span class="line">на линуксе с
-            <a target="_blank" style="margin: 0 0.3vw" href="https://github.com/krolchonok/my-zsh">такими</a>настройками</span>
-        </div>
-        <div class="string">
-          <a style="margin-right: 0.3vw" target="_blank" href="https://ohmyposh.dev/">oh-my-posh</a>
-          на винде
-        </div>
-        <div class="string">
-          <a style="margin-right: 0.3vw" target="_blank" href="https://rubjo.github.io/victor-mono/">victor-mono</a>
-          лучший шрифт
-        </div>
-        <div class="string">
-          <a style="margin-right: 0.3vw" target="_blank" href="https://ushastoe.ru/GellyCursor.zip">GellyCursor</a>
-          <a style="margin-right: 0.3vw" target="_blank" href="https://ushastoe.ru/MitaCursor.zip">MitaCursor</a>
-          <a style="margin-right: 0.3vw" target="_blank" href="https://ushastoe.ru/MiyabiCursor.zip">MiyabiCursor</a>
-          <a style="margin-right: 0.3vw" target="_blank" href="https://ushastoe.ru/GlitchCursor.zip">GlitchCursor</a>
-          курсоры
-        </div>
-      </div>
-    </div>
-  </div>
-  <img src="files/img/sticker.png" id="myButton" onclick="sticker()" />
 
-  <div class="color_palette">
-    <div class="color_l" id="list_c"></div>
-    <i id="button_color" class="fa-solid fa-palette" onclick="palette()"></i>
-  </div>
-</body>
+      <div class="tile short">
+        <h2><i class="fa-solid fa-trash"></i>&nbspбесполезень</h2>
+        <p>
+          <button
+            onclick="openUrl('https://github.com/krolchonok/WallpaperChanger')"
+          >
+            WallpaperChanger
+          </button>
+          - android приложение для изменения обоев<br />
+        </p>
+        <p>
+          <button
+            onclick="openUrl('https://github.com/krolchonok/cat_theme_dark')"
+          >
+            тема для firefox-а
+          </button>
+          - простая тема с милым котиком
+          <img src="тестоваякица.png" alt="кися" class="pfp" /><br />
+        </p>
+        <p>
+          <button
+            onclick="openUrl('https://krolchonok.github.io/fix-youtube-avatar/')"
+          >
+            fix-youtube-avatar
+          </button>
+          - возвращаем аватарки и шапки на youtube<br />
+        </p>
+        <p>
+          <button onclick="openUrl('https://github.com/krolchonok/res_change')">
+            res_change
+          </button>
+          - python скрипт, для смены разрешений без подтверждения
+        </p>
+      </div>
+      <div class="tile short">
+        <h2><i class="fa-solid fa-address-book"></i>&nbspконтакты</h2>
+        <p>
+          <button
+            onclick="openUrl('https://vk.com/ushastoe')"
+            style="background-color: #0077ff"
+          >
+            <i class="fab fa-vk"></i> ВК
+          </button>
+          - @ushastoe<br />
+        </p>
+        <p>
+          <button
+            onclick="openUrl('https://t.me/ushastoe')"
+            style="background-color: #0c8bc8"
+          >
+            <i class="fa-brands fa-telegram"></i> ТГ
+          </button>
+          - @ushastoe<br />
+        </p>
+        <p>
+          <button
+            onclick="openUrl('https://t.me/ushastayaNora')"
+            style="background-color: #0c8bc8"
+          >
+            <i class="fa-brands fa-telegram"></i> ТГК
+          </button>
+          - @ushastayaNora<br />
+        </p>
+      </div>
+      <div class="tile short">
+        <h2><i class="fa-solid fa-link"></i>&nbspдругие ссылочки</h2>
 
+        <p>
+          <button
+            onclick="openUrl('https://github.com/krolchonok')"
+            style="background-color: #2b3137"
+          >
+            <i class="fa-brands fa-github" aria-hidden="true"></i> GitHub
+          </button>
+          - @krolchonok<br />
+        </p>
+        <p>
+          <button
+            onclick="openUrl('https://steamcommunity.com/id/ushastoest/')"
+            style="background-color: #154a7e"
+          >
+            <i class="fa-brands fa-steam" aria-hidden="true"></i> Steam
+          </button>
+          - @ushastoe
+        </p>
+      </div>
+      <div class="tile short">
+        <h2>
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>&nbspтехнические
+          ссылки
+        </h2>
+        <p>
+          <button onclick="openUrl('https://ohmyz.sh/')">oh-my-zsh</button> на
+          линуксе с
+          <button onclick="openUrl('https://github.com/krolchonok/my-zsh')">
+            такими
+          </button>
+          настройками<br />
+        </p>
+        <p>
+          <button onclick="openUrl('https://ohmyposh.dev/')">oh-my-posh</button>
+          на винде<br />
+        </p>
+        <p>
+          <button onclick="openUrl('https://rubjo.github.io/victor-mono/')">
+            victor-mono
+          </button>
+          лучший шрифт<br />
+        </p>
+      </div>
+    </div>
+    <script src="scripts.js"></script>
+  </body>
 </html>
