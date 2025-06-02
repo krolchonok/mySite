@@ -22,3 +22,9 @@
 [submodule "grapher"]
 	path = grapher
 	url = https://github.com/krolchonok/graphViewer
+[submodule "b64"]
+	path = b64
+	url = https://github.com/krolchonok/b64
+[submodule "imEf"]
+	path = imEf
+	url = https://github.com/krolchonok/imageEffect

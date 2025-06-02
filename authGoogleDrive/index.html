@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Получение токена Google Drive</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        #results { margin-top: 20px; border: 1px solid #ccc; padding: 15px; background-color: #f9f9f9; }
+        #results pre { white-space: pre-wrap; word-break: break-all; }
+        button { padding: 10px 15px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <h1>Получение токена Google Drive</h1>
+
+    <p>Нажмите кнопку ниже, чтобы начать процесс авторизации Google. Вы будете перенаправлены на страницу Google для входа и согласия.</p>
+
+    <button id="authButton">Авторизоваться через Google</button>
+
+    <div id="results" style="display: none;">
+        <h2>Результаты:</h2>
+        <p><strong>Статус:</strong> <span id="status"></span></p>
+        <p><strong>Access Token:</strong> <pre id="accessToken"></pre></p>
+        <p><strong>Refresh Token:</strong> <pre id="refreshToken"></pre> (Появится только при первом получении с access_type=offline)</p>
+        <p><strong>Истекает через (секунд):</strong> <span id="expiresIn"></span></p>
+        <p><strong>Тип токена:</strong> <span id="tokenType"></span></p>
+        <p><strong>ID Token:</strong> <pre id="idToken"></pre> (Появится при запросе scopes like openid)</p>
+    </div>
+
+    <script>
+        // *** ЗАМЕНИТЕ ЭТИ ЗНАЧЕНИЯ НА СВОИ ***
+        const CLIENT_ID = '934794854564-l3l2m6nleebsb5ap05l12g4ihh0nbc05.apps.googleusercontent.com'; // Пример: 123456789012-abcdefghijklmnopqrstuvwxyz012345.apps.googleusercontent.com
+        const REDIRECT_URI = 'https://ushst.ru/authGoogleDrive'; // Укажите полный URL вашей страницы. ДОЛЖЕН СОВПАДАТЬ с настроенным в Google Cloud.
+        // ***************************************
+
+        // Области доступа (scopes) к Google API. Для Google Drive можно использовать разные:
+        // 'https://www.googleapis.com/auth/drive.readonly' - Только чтение
+        // 'https://www.googleapis.com/auth/drive.metadata.readonly' - Только метаданные (без содержимого)
+        // 'https://www.googleapis.com/auth/drive.file' - Доступ к файлам, созданным или открытым вашим приложением
+        // 'https://www.googleapis.com/auth/drive' - Полный доступ к файлам пользователя
+        const SCOPES = 'https://www.googleapis.com/auth/drive'; // Выберите нужные вам scopes через пробел
+
+        // Для получения Refresh Token (долговременный доступ)
+        const ACCESS_TYPE = 'offline';
+
+        // Конечные точки Google OAuth 2.0
+        const AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
+        const TOKEN_URL = 'https://oauth2.googleapis.com/token';
+
+        // PKCE (Proof Key for Code Exchange) переменные
+        let codeVerifier = ''; // Будет сгенерирован и сохранен
+        const STATE = 'random_state_string'; // Используется для предотвращения CSRF
+
+        // Элементы DOM
+        const authButton = document.getElementById('authButton');
+        const resultsDiv = document.getElementById('results');
+        const statusSpan = document.getElementById('status');
+        const accessTokenPre = document.getElementById('accessToken');
+        const refreshTokenPre = document.getElementById('refreshToken');
+        const expiresInSpan = document.getElementById('expiresIn');
+        const tokenTypeSpan = document.getElementById('tokenType');
+        const idTokenPre = document.getElementById('idToken');
+
+
+        // --- PKCE Helper Functions ---
+
+        // Генерирует случайную строку для code_verifier
+        function generateCodeVerifier() {
+            const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let randomString = '';
+            const randomValues = window.crypto.getRandomValues(new Uint8Array(128)); // 128 байт -> 171 символ base64url
+            for (let i = 0; i < randomValues.length; i++) {
+                randomString += possible[randomValues[i] % possible.length];
+            }
+            return randomString;
+        }
+
+        // Кодирует ArrayBuffer в строку Base64Url
+        function base64urlencode(arrayBuffer) {
+            let byteArray = new Uint8Array(arrayBuffer);
+            let byteString = '';
+            for (let i = 0; i < byteArray.byteLength; i++) {
+                byteString += String.fromCharCode(byteArray[i]);
+            }
+            return btoa(byteString)
+                .replace(/\+/g, '-')
+                .replace(/\//g, '_')
+                .replace(/=+$/, '');
+        }
+
+        // Вычисляет code_challenge из code_verifier
+        async function pkceChallengeFromVerifier(v) {
+            const hashed = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(v));
+            return base64urlencode(hashed);
+        }
+
+        // --- Main OAuth Flow Functions ---
+
+        // Шаг 1: Инициирует перенаправление на страницу авторизации Google
+        async function initiateAuthFlow() {
+            resultsDiv.style.display = 'none'; // Скрыть результаты предыдущего запроса
+            statusSpan.textContent = '';
+            accessTokenPre.textContent = '';
+            refreshTokenPre.textContent = '';
+            expiresInSpan.textContent = '';
+            tokenTypeSpan.textContent = '';
+            idTokenPre.textContent = '';
+
+
+            codeVerifier = generateCodeVerifier();
+            // Сохраняем code_verifier, так как он понадобится после перенаправления
+            localStorage.setItem('pkce_code_verifier', codeVerifier);
+            localStorage.setItem('oauth_state', STATE); // Сохраняем state для проверки
+
+            const codeChallenge = await pkceChallengeFromVerifier(codeVerifier);
+
+            const params = new URLSearchParams({
+                client_id: CLIENT_ID,
+                redirect_uri: REDIRECT_URI,
+                scope: SCOPES,
+                response_type: 'code', // Запрашиваем authorization code
+                access_type: ACCESS_TYPE, // Для получения refresh token
+                state: STATE,
+                code_challenge: codeChallenge,
+                code_challenge_method: 'S256', // Метод хеширования
+                prompt: 'consent select_account' // Запрашивать согласие и выбор аккаунта каждый раз
+            });
+
+            const authUrl = `${AUTH_URL}?${params.toString()}`;
+
+            console.log('Перенаправление на:', authUrl);
+            window.location.href = authUrl; // Перенаправляем пользователя
+        }
+
+        // Шаг 2: Обработка перенаправления с authorization code
+        async function handleRedirect() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+            const error = urlParams.get('error');
+            const state = urlParams.get('state');
+
+            // Убираем параметры из URL, чтобы они не остались при перезагрузке
+            if (window.location.search) {
+                 history.replaceState({}, document.title, REDIRECT_URI);
+            }
+
+
+            // Проверяем state для предотвращения CSRF
+            const storedState = localStorage.getItem('oauth_state');
+            localStorage.removeItem('oauth_state'); // Удаляем state после проверки
+
+            if (state !== storedState) {
+                 if (state || storedState) { // Проверяем, если state вообще присутствовал
+                    statusSpan.textContent = 'Ошибка: Неверный state параметр!';
+                    resultsDiv.style.display = 'block';
+                    console.error('State mismatch. Expected:', storedState, 'Received:', state);
+                    return;
+                 }
+                 // Если state не использовался (что не рекомендуется), продолжаем без проверки
+            }
+
+
+            if (error) {
+                statusSpan.textContent = `Ошибка авторизации: ${error}`;
+                resultsDiv.style.display = 'block';
+                console.error('OAuth error:', error);
+                return;
+            }
+
+            if (code) {
+                statusSpan.textContent = 'Получен authorization code. Обмениваем на токены...';
+                resultsDiv.style.display = 'block';
+                console.log('Received authorization code:', code);
+
+                // Извлекаем сохраненный verifier
+                const storedVerifier = localStorage.getItem('pkce_code_verifier');
+                localStorage.removeItem('pkce_code_verifier'); // Удаляем его после получения
+
+                if (!storedVerifier) {
+                    statusSpan.textContent = 'Ошибка: Code verifier не найден в localStorage.';
+                    resultsDiv.style.display = 'block';
+                    console.error('PKCE code verifier not found.');
+                    return;
+                }
+
+                // Обмениваем authorization code на access token (Шаг 5)
+                await exchangeCodeForTokens(code, storedVerifier);
+
+            } else {
+                // Если нет ни code, ни error, просто загрузилась страница без параметров OAuth
+                console.log('Страница загружена без параметров OAuth.');
+                statusSpan.textContent = 'Ожидание авторизации...';
+                resultsDiv.style.display = 'block'; // Показываем раздел результатов, но он пуст
+            }
+        }
+
+        // Шаг 3: Обмен authorization code на токены доступа
+        async function exchangeCodeForTokens(code, verifier) {
+             const params = new URLSearchParams({
+                client_id: CLIENT_ID,
+                code: code,
+                redirect_uri: REDIRECT_URI,
+                grant_type: 'authorization_code', // Тип обмена
+                code_verifier: verifier // Передаем верификатор
+            });
+
+            try {
+                const response = await fetch(TOKEN_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: params.toString()
+                });
+
+                const tokenData = await response.json();
+
+                if (response.ok) {
+                    statusSpan.textContent = 'Токены успешно получены!';
+                    accessTokenPre.textContent = tokenData.access_token || 'N/A';
+                    refreshTokenPre.textContent = tokenData.refresh_token || 'N/A'; // Refresh token может отсутствовать
+                    expiresInSpan.textContent = tokenData.expires_in || 'N/A';
+                    tokenTypeSpan.textContent = tokenData.token_type || 'N/A';
+                    idTokenPre.textContent = tokenData.id_token || 'N/A';
+                    console.log('Token exchange successful:', tokenData);
+
+                    // Теперь у вас есть access_token. Вы можете использовать его для запросов к Google Drive API.
+                    // Например: makeDriveApiRequest(tokenData.access_token);
+
+                } else {
+                    statusSpan.textContent = `Ошибка обмена токена: ${tokenData.error || response.statusText}`;
+                     console.error('Token exchange failed:', tokenData);
+                }
+
+            } catch (error) {
+                statusSpan.textContent = `Ошибка сети или запроса: ${error.message}`;
+                console.error('Network or request error:', error);
+            }
+        }
+
+        // --- Event Listeners and Initial Load ---
+
+        // Привязываем функцию initiateAuthFlow к кнопке
+        authButton.addEventListener('click', initiateAuthFlow);
+
+        // При загрузке страницы проверяем, вернулись ли мы с редиректа Google
+        window.addEventListener('load', handleRedirect);
+
+    </script>
+
+</body>
+</html>
